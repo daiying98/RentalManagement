@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "ChartData";
+}
+
+<h2>ChartData</h2>
+@model IEnumerable<RentalManagement.Models.Equipment>
+@using WebMatrix.Data
+@using System.Data.SqlClient
+
+@{
+    var Chart = new Chart(width: 600, height: 400)
+        .AddTitle("Chart Title")
+        .AddSeries(
+            name: "Employee",
+            xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
+            yValues: new[] { "2", "6", "4", "5", "3" })
+        .Write();
+}
+@{
+    var db = Database.Open("RentalManagement");
+    var data = db.Query("SELECT Equipment_Category, COUNT(Equipment_Id) Equipment_Quantity FROM Equipment GROUP BY Equipment_Category;");
+    var myChart = new Chart(width: 600, height: 400)
+        .AddTitle("Equipment Categories")
+        .AddSeries("Default", chartType: "Pie",
+            xValue: data, xField: "Equipment_Category",
+            yValues: data, yFields: "Equipment_Quantity")
+        .Write();
+}
