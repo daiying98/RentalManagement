@@ -8,17 +8,9 @@
 @using WebMatrix.Data
 @using System.Data.SqlClient
 
+
 @{
-    var Chart = new Chart(width: 600, height: 400)
-        .AddTitle("Chart Title")
-        .AddSeries(
-            name: "Employee",
-            xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
-            yValues: new[] { "2", "6", "4", "5", "3" })
-        .Write();
-}
-@{
-    var db = Database.Open("RentalManagement");
+    var db = Database.Open("RentalManagementEntities");
     var data = db.Query("SELECT Equipment_Category, COUNT(Equipment_Id) Equipment_Quantity FROM Equipment GROUP BY Equipment_Category;");
     var myChart = new Chart(width: 600, height: 400)
         .AddTitle("Equipment Categories")
